@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_instance">
+    <sp_instance action="DELETE">
+        <active>true</active>
+        <class_name/>
+        <color>default</color>
+        <css/>
+        <glyph/>
+        <id/>
+        <order>1</order>
+        <roles/>
+        <short_description/>
+        <size>md</size>
+        <sp_column display_value="2">aa4e10e92f1d10100056c886f699b630</sp_column>
+        <sp_widget display_value="NewBill">ef0e54a92f1d10100056c886f699b689</sp_widget>
+        <sys_class_name>sp_instance</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-06-09 04:31:40</sys_created_on>
+        <sys_id>275e9ca92f1d10100056c886f699b678</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Split Bills" source="x_489137_split_bil">9a7fb19d2f9510100056c886f699b625</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Split Bills">9a7fb19d2f9510100056c886f699b625</sys_scope>
+        <sys_update_name>sp_instance_275e9ca92f1d10100056c886f699b678</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-06-09 04:31:40</sys_updated_on>
+        <title/>
+        <url/>
+        <widget_parameters/>
+    </sp_instance>
+    <sys_translated_text action="DELETE" query="documentkey=275e9ca92f1d10100056c886f699b678"/>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Split Bills">9a7fb19d2f9510100056c886f699b625</application>
+        <file_path/>
+        <instance_id>ab4e3820dbf09cd89a4dcac5059619ee</instance_id>
+        <instance_name>dev103178</instance_name>
+        <name>sp_instance_275e9ca92f1d10100056c886f699b678</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_instance"><sp_instance action="INSERT_OR_UPDATE"><active>true</active><class_name/><color>default</color><css/><glyph/><id/><order>1</order><roles/><short_description/><size>md</size><sp_column display_value="2">aa4e10e92f1d10100056c886f699b630</sp_column><sp_widget display_value="NewBill">ef0e54a92f1d10100056c886f699b689</sp_widget><sys_class_name>sp_instance</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2020-06-09 04:31:40</sys_created_on><sys_id>275e9ca92f1d10100056c886f699b678</sys_id><sys_mod_count>0</sys_mod_count><sys_name/><sys_package display_value="Split Bills" source="x_489137_split_bil">9a7fb19d2f9510100056c886f699b625</sys_package><sys_policy/><sys_scope display_value="Split Bills">9a7fb19d2f9510100056c886f699b625</sys_scope><sys_update_name>sp_instance_275e9ca92f1d10100056c886f699b678</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2020-06-09 04:31:40</sys_updated_on><title/><url/><widget_parameters/></sp_instance><sys_translated_text action="delete_multiple" query="documentkey=275e9ca92f1d10100056c886f699b678"/></record_update>]]></payload>
+        <payload_hash>1092402326</payload_hash>
+        <record_name/>
+        <reverted_from/>
+        <source>2e7fb19d2f9510100056c886f699b627</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-06-09 04:31:40</sys_created_on>
+        <sys_id>635e9ca92f1d10100056c886f699b67a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1729759218f0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-06-09 04:31:40</sys_updated_on>
+        <type>Instance</type>
+        <update_guid>ab5e9ca9ea1d1010c6a89543d7a74879</update_guid>
+        <update_guid_history>ab5e9ca9ea1d1010c6a89543d7a74879:1092402326</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="">995b5c6a2f5d10100056c886f699b64c</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-06-12 06:52:19</sys_created_on>
+        <sys_db_object display_value="" name="sp_instance">sp_instance</sys_db_object>
+        <sys_id>0d825d232ec44780817ad11f294e4000</sys_id>
+        <sys_metadata>275e9ca92f1d10100056c886f699b678</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Split Bills" source="x_489137_split_bil">9a7fb19d2f9510100056c886f699b625</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Split Bills">9a7fb19d2f9510100056c886f699b625</sys_scope>
+        <sys_scope_delete display_value="">2a3dc67cdf104d5a8865d88a74da40c1</sys_scope_delete>
+        <sys_update_name>sp_instance_275e9ca92f1d10100056c886f699b678</sys_update_name>
+        <sys_update_version display_value="sp_instance_275e9ca92f1d10100056c886f699b678">635e9ca92f1d10100056c886f699b67a</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-06-12 06:52:19</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

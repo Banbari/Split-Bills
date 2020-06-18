@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function() {
+	/* widget controller */
+	var c = this;
+	c.updateShares=function(){
+		var share=Number(amount.value)
+	};
+	c.handleShareChange=function(){
+		var total=0;
+		var share=Number(c.data.total)/(c.data.friends.length+1)
+		for(var i=0;i<c.data.friends.length;i++){
+			c.data.share[i]=share;
+		}
+		/*if(total!=Number(c.data.total))
+			alert('Total is not equal to shares sum');*/
+		//console.log("share text value : "+eval('share'+index).value);
+	};
+	
+	c.test=function(index){
+		//console.log(eval('share'+index).value);
+		console.log(c.data.share[index]);
+	}
+	
+	function validateTotal(total, shares){
+		var curr=0;
+		for(var i=0;i<shares.length;i++){
+			curr+=shares[i];
+		}
+		return curr===total;
+	}
+
+	c.addBill=function(){
+		//if(validateTotal(c.data.total, c.data.share)){
+		var friends1=c.data.friends;
+		//console.log('before adding bill : '+JSON.stringify(friends1));
+		//console.log(c.data.friends);
+		//console.log("Ids : "+JSON.stringify(friend));
+		
+		c.server.get({
+			action: 'addBill',
+			data: c.data.friends,
+			shares: c.data.share,
+			balance: Number(c.data.total)
+		}).then(function(r) {
+			var data={
+				balance:c.data.total,
+				shares: c.data.share.slice(),
+				friends:c.data.friends.slice()
+			};
+			amount.value='';
+			for(var i=0;i<c.data.share.length;i++)
+				c.data.share=0;
+			var friendsTemp=c.data.friends.slice();
+			c.data.friends.length=0;
+			$rootScope.$emit('billAdded', friendsTemp); //update friends available to add to the new bill
+			$rootScope.$emit('updateTotalAfterBillAdd', data);//update user's total
+			$rootScope.$emit('updateFriendsListAfterBillAdd', data);//update friends list
+
+		});
+
+		console.log("Addd bill clicked : "+Number(amount.value));
+		/*}
+		else{
+			alert('Shares sum is not equal to total');
+		}*/
+	}
+
+	$rootScope.$on('addFriendToBill', function(event,data) {
+		data.id=c.data.friends.length;
+		c.data.friends.push(data);
+		//console.log(c.data.friends);
+		//c.data.friends.push(data);
+		//console.log("My Data : "+JSON.stringify(data));
+	});
+
+	c.removeFriendFromBill = function(index){
+		var friend=c.data.friends[index];
+		c.data.friends.splice(index, 1);
+		$rootScope.$emit('removeFriendFromBill', friend);
+	}
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.list-group{
+  max-height: 200px;
+  min-height: 200px;
+  margin-bottom: 10px;
+  overflow:scroll;
+  -webkit-overflow-scrolling: touch;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data>{
+	"friends":[
+		{
+		"name":"test"
+		},
+		{
+		"name":"test1"
+		}
+	]
+}</demo_data>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>true</has_preview>
+        <id>newbillcopy</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {  }]]></link>
+        <name>NewBillCopy</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+	data.friends=[];
+	data.share=[];
+
+	if(input){
+		if(input.action=='addBill'){
+			console.log("in addBill handler : "+JSON.stringify(input.data[0].friend));
+			var share=Number(input.balance)/((input.data.length)+1);
+			for(var i=0;i<input.data.length; i++){
+				//console.log(" a friend : "+ JSON.stringify(friend));
+				share=Number(input.shares[i]);
+				console.log('user : '+ gs.getUser().getID());
+				console.log('friend : '+ input.data[i].friend);
+				var bal=0;
+				var userGR=new GlideRecord('x_489137_split_bil_user_friends_mapping');
+				userGR.addQuery('friend', input.data[i].friend);
+				userGR.addQuery('user', gs.getUser().getID());
+				userGR.query();
+				console.log('user count : '+userGR.getRowCount());
+				console.log('users : '+ JSON.stringify(userGR));
+				while(userGR.next()){
+					console.log('user to friend Balance : '+ userGR.getUniqueValue());
+					bal=Number(userGR.getValue('balance'));
+					userGR.setValue('balance', bal+share);
+					userGR.update();
+				}
+				userGR=new GlideRecord('x_489137_split_bil_user_friends_mapping');
+				userGR.addQuery('user', input.data[i].friend);
+				userGR.addQuery('friend', gs.getUser().getID());
+				userGR.query();
+				while(userGR.next()){
+					console.log('user to friend Balance : '+ userGR.getUniqueValue());
+					bal=Number(userGR.getValue('balance'));
+					userGR.setValue('balance', bal+(-1*share));
+					userGR.update();
+				}
+
+				var gr=new GlideRecord('x_489137_split_bil_user_data')
+				gr.addQuery('user', input.data[i].friend)
+				gr.query();
+				while(gr.next()){
+					var val=Number(gr.getValue('balance'));
+					val-=Number(share);
+					gr.setValue('balance', val);
+					gr.update();
+				}
+
+			}
+			//console.log(data.friends.length+' friends in bill '+ JSON.stringify((data.friends)));
+			//console.log("friend added to bill "+JSON.stringify(input.friend));
+		}
+	}	
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-06-12 02:42:22</sys_created_on>
+        <sys_id>c422e7d22fd910100056c886f699b628</sys_id>
+        <sys_mod_count>34</sys_mod_count>
+        <sys_name>NewBillCopy</sys_name>
+        <sys_package display_value="Split Bills" source="x_489137_split_bil">9a7fb19d2f9510100056c886f699b625</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Split Bills">9a7fb19d2f9510100056c886f699b625</sys_scope>
+        <sys_update_name>sp_widget_c422e7d22fd910100056c886f699b628</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-06-12 07:55:26</sys_updated_on>
+        <template><![CDATA[<div>
+  <table width="100%">
+    <tr>
+      <td align="center">
+        <h2>Add New Bill</h2>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <form>
+          Enter Total Amount : <input id="amount" type="text" ng-change="c.handleShareChange()" ng-model="c.data.total"/>
+          <button ng-click="c.addBill()">
+            Add
+          </button>
+        </form>
+        <br/>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="panel panel-default">
+          <div class="panel-heading clearfix">
+            <h3 class="panel-title pull-left">
+              ${Friends Added To This Bill}
+            </h3>
+          </div>
+
+          <div class="list-group">
+            <a class="list-group-item" ng-click="c.selectItem($index)" ng-repeat="friend in data.friends">
+              <table width="100%">
+                <tr>
+                  <td align="left">
+                    <div class="custom-left">
+                      <h4 class="">
+                        {{friend.name}}
+                      </h4>
+                    </div>
+                  </td>
+                  <td align="right">
+                    <table>
+                      <tr>
+                        <td align="left">
+                          <input type="text" ng-change="c.test($index)" ng-model="c.data.share[$index]"/>
+                        </td>
+                        <td align="right">
+                          <div class="custom-right">
+                            <button class="btn btn-default" ng-click="c.removeFriendFromBill($index)"> 
+                              <span class="glyphicon glyphicon-minus"></span> 
+                            </button>
+
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </a>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>]]></template>
+    </sp_widget>
+</record_update>

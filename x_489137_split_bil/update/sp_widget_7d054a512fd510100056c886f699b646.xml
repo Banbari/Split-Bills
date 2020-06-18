@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[function() {
+	/* widget controller */
+	var c = this;
+	c.mappedData=new Map();
+	console.log('initial data : '+c.data+" "+c.data.friends.length);
+	for(var i=0;i<c.data.friends.length;i++){
+		console.log('data : '+c.data.friends[i].sys_id);
+		c.mappedData.set(c.data.friends[i].sys_id, c.data.friends[i]);
+	}
+console.log('initial data : '+JSON.stringify(c.mappedData.size));
+	
+	c.updateTotalBalance=function(){
+		$rootScope.totalBalance = c.data.totalBalance;
+		$rootScope.$emit('currentBalance', c.data.totalBalance);
+	}
+
+	c.settleBalance=function(index) {
+		console.log(c.data.friends[index].sys_id);
+		console.log(c.data.friends[index].balance);
+		var userBalance=c.data.friends[index].balance;
+		c.server.get({
+			action: 'settleBalance',
+			friendId: c.data.friends[index].sys_id,
+			amount: c.data.friends[index].balance
+		}).then(function(r) {
+			c.data.friends[index].balance=0
+			c.data.totalBalance-=Number(userBalance);
+			console.log("Current friend balance : "+ userBalance);
+			console.log("Current total balance : "+ c.data.totalBalance);
+			//$rootScope.totalBalance = c.data.totalBalance;
+			$rootScope.$emit('updateTotalAfterSettel', userBalance);
+		});
+	}
+
+	$rootScope.$on('updateFriendsListAfterBillAdd', function(event,data) {
+		console.log('in later call : 1'+data.friends.length);
+		console.log('initial data : '+JSON.stringify(c.mappedData.size));
+		var friendShare=(data.balance/(data.friends.length+1));
+		for(var i=0;i<data.friends.length;i++){
+			console.log(JSON.stringify(data.friends[i]))
+			var friend=c.mappedData.get(data.friends[i].friend);
+			var balance=Number(friend.balance);
+			
+			friend.balance=Number(friendShare)+balance;
+		}
+	});
+
+
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.list-group{
+  max-height: 300px;
+  min-height: 200px;
+  margin-bottom: 10px;
+  overflow:scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+.red {
+  color: red; 
+}
+
+.green {
+  color: green;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list/>
+        <has_preview>true</has_preview>
+        <id>splitfriendslist</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {  }]]></link>
+        <name>SplitFriendsList</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+	if(input && input.friendId){
+		if(input.action=='settleBalance'){
+			data.totalBalance-=input.amount;
+			var userGr=new GlideRecord('x_489137_split_bil_user_friends_mapping');
+			userGr.addQuery('user', gs.getUser().getID());
+			//gr.get('friend', input.friendId);
+			userGr.addQuery('friend', input.friendId);
+			userGr.query();
+			while(userGr.next()){
+				userGr.setValue('balance',  0.0);
+				userGr.update();
+			}
+			var friendGr=new GlideRecord('x_489137_split_bil_user_friends_mapping');
+			friendGr.addQuery('friend', gs.getUser().getID());
+			//gr.get('friend', input.friendId);
+			friendGr.addQuery('user', input.friendId);
+			friendGr.query();
+			while(friendGr.next()){
+				friendGr.setValue('balance',  0.0);
+				friendGr.update();
+			}
+			var gr=new GlideRecord('x_489137_split_bil_user_data')
+			gr.addQuery('user', input.friendId)
+			gr.query();
+			while(gr.next()){
+				var val=Number(gr.getValue('balance'));
+				val+=Number(input.amount);
+				gr.setValue('balance', val);
+				gr.update();
+			}
+		}
+	}else{
+		data.friends = [];
+		data.totalBalance=0.0;
+		var friendsGR = new GlideRecord('x_489137_split_bil_user_friends_mapping');
+		friendsGR.addQuery('user', gs.getUser().getID());
+		friendsGR.orderByDesc('balance');
+		friendsGR.query();
+		while (friendsGR.next()) {
+			var friendObj = {}; 
+			friendObj.sys_id=friendsGR.getValue('friend');
+			friendObj.name=friendsGR.getElement("friend").getRefRecord().getValue("name")
+			friendObj.balance=friendsGR.getValue('balance');
+			data.totalBalance+=Number(friendObj.balance);
+			data.friends.push(friendObj);
+		}
+	}
+}
+)();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-06-08 17:21:42</sys_created_on>
+        <sys_id>7d054a512fd510100056c886f699b646</sys_id>
+        <sys_mod_count>203</sys_mod_count>
+        <sys_name>SplitFriendsList</sys_name>
+        <sys_package display_value="Split Bills" source="x_489137_split_bil">9a7fb19d2f9510100056c886f699b625</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Split Bills">9a7fb19d2f9510100056c886f699b625</sys_scope>
+        <sys_update_name>sp_widget_7d054a512fd510100056c886f699b646</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-06-11 15:18:29</sys_updated_on>
+        <template><![CDATA[<div class="panel panel-default">
+  <div class="panel-heading clearfix">
+    <h3 class="panel-title pull-left">
+      ${Friends}
+    </h3>
+    <button class="btn btn-default pull-right" ng-click="c.newFriend()"> 
+      <span class="glyphicon glyphicon-plus"></span> 
+    </button>
+  </div>
+  
+  <div class="list-group">
+    <a class="list-group-item" ng-repeat="friend in data.friends" on-last-repeat="c.updateTotalBalance()" >
+      <table width="100%">
+        <tr ng-class='{green : friend.balance>=0, red: friend.balance<0}'>
+          <td align="left">
+            <div class="custom-left">
+              <h4 class="">
+                {{friend.name}}
+              </h4>
+              <p class="">
+                {{friend.balance}}
+              </p>
+            </div>
+          </td>
+          <td align="right">
+            <div class="custom-right">
+              <button class="btn btn-default" ng-click="c.settleBalance($index)"> 
+                Settle
+              </button>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </a>
+  </div>
+</div>]]></template>
+    </sp_widget>
+</record_update>

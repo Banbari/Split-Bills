@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_data_policy_rule">
+    <sys_data_policy_rule action="INSERT_OR_UPDATE">
+        <disabled>ignore</disabled>
+        <field>user</field>
+        <mandatory>true</mandatory>
+        <sys_class_name>sys_data_policy_rule</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-06-08 17:02:30</sys_created_on>
+        <sys_data_policy display_value="Sets the User field to mandatory">24a0ce9d2f9510100056c886f699b69c</sys_data_policy>
+        <sys_id>60a0ce9d2f9510100056c886f699b69f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>user</sys_name>
+        <sys_package display_value="Split Bills" source="x_489137_split_bil">9a7fb19d2f9510100056c886f699b625</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Split Bills">9a7fb19d2f9510100056c886f699b625</sys_scope>
+        <sys_update_name>sys_data_policy_rule_60a0ce9d2f9510100056c886f699b69f</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-06-08 17:02:30</sys_updated_on>
+        <table>x_489137_split_bil_user_data</table>
+    </sys_data_policy_rule>
+</record_update>
