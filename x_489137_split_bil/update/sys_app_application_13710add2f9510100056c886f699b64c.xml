@@ -7,14 +7,14 @@
         <hint>Split Bills Among Friends</hint>
         <name/>
         <order/>
-        <roles>x_489137_split_bil.SplitUserRole</roles>
+        <roles>public</roles>
         <sys_class_name>sys_app_application</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2020-06-08 17:06:14</sys_created_on>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>13710add2f9510100056c886f699b64c</sys_id>
-        <sys_mod_count>5</sys_mod_count>
+        <sys_mod_count>6</sys_mod_count>
         <sys_name>Split Bills</sys_name>
         <sys_overrides/>
         <sys_package display_value="Split Bills" source="x_489137_split_bil">9a7fb19d2f9510100056c886f699b625</sys_package>
@@ -22,7 +22,7 @@
         <sys_scope display_value="Split Bills">9a7fb19d2f9510100056c886f699b625</sys_scope>
         <sys_update_name>sys_app_application_13710add2f9510100056c886f699b64c</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2020-06-12 09:25:52</sys_updated_on>
+        <sys_updated_on>2020-06-21 10:36:28</sys_updated_on>
         <title>Split Bills</title>
         <view_name/>
     </sys_app_application>
