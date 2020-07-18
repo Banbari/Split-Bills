@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
     <sp_widget action="INSERT_OR_UPDATE">
         <category>custom</category>
-        <client_script><![CDATA[function() {
+        <client_script><![CDATA[function($scope, spUtil) {
 	/* widget controller */
 	var c = this;
+	
+	c.tests=function(){
+		c.server.get({
+			action:'tests'
+		}).then(function(r) {});
+	}
 
 	$rootScope.$on('updateTotalAfterSettel', function(event,data) {
 		console.log('inside user client script');
@@ -32,6 +38,58 @@
 			console.log(c.data.balance);
 		});
 	});
+
+
+	$scope.friend = {
+		displayValue: c.data.friend.name,
+		value: c.data.friend.sys_id,
+		name: 'friend'
+
+	};
+
+	c.addNewFriend = function(){
+		c.server.get({
+			setFriend:c.data.setFriend
+		}).then(function(r) {
+			var data={
+				name:r.data.friendName,
+				sys_id:r.data.friendSysId
+			};
+			console.log('new Friend added : '+r.data.friend.getDisplayName);
+			spUtil.addInfoMessage(r.data.friendName+" added as Friend");
+			$rootScope.$emit('newFriendAdded', data);
+			c.clearFriend();
+		});
+		console.log("c.addNewFriend called : "+test.value);
+	}
+
+
+	$scope.$on("field.change", function(evt, parms) {
+
+		if (parms.field.name == 'friend')
+		{
+			console.log("new Value : "+parms.newValue);
+
+			c.data.setFriend = parms.newValue;
+
+		}
+
+		/*c.server.update().then(function(response) {         
+
+               //spUtil.update($scope);
+
+       })*/
+
+	});
+
+	c.clearFriend = function(){   
+		$scope.friend.displayValue = "";
+		$scope.friend.value = "";
+	};
+
+	//https://community.servicenow.com/community?id=community_blog&sys_id=54bde6a9dbd0dbc01dcaf3231f96193f
+
+
 }]]></client_script>
         <controller_as>c</controller_as>
         <css>.red {
@@ -40,6 +98,10 @@
 
 .green {
   color: green;
+}
+
+.ttable{
+  margin-top:40%;
 }</css>
         <data_table>sp_instance</data_table>
         <demo_data/>
@@ -89,6 +151,50 @@
 				gr.update();
 			}
 		}
+
+		else if(input.action=='tests'){
+			var recordGr=new GlideRecord('sn_ca_campaign');
+			recordGr.addQuery('title', 'Open Enrollment');
+			recordGr.query();
+			var audienceListQueries=recordGr.getValue('audience');
+			var users=new Set();
+			for(var query in audienceListQueries){
+				var userGr=new GlideRecord('sys_user');
+				userGr.addQuery(query);
+				userGr.query();
+				while(userGr.next()){
+					users.add(userGr.getValue('email'));
+				}
+			}
+			console.log(JSON.stringify(users));
+		}
+
+		else if(input.setFriend){
+			var friendName='';
+			var friendSysId='';
+			var friendR;
+			var friendGr = new GlideRecord('sys_user'); 
+			friendGr.addQuery('sys_id', input.setFriend); 
+			friendGr.query(); 
+			if(friendGr.next()){ 
+				friendName=friendGr.getDisplayValue();
+				friendSysId=friendGr.getValue('sys_id');
+				console.log(friendName);
+				friendR=friendGr;
+			}
+
+			gr=new GlideRecord('x_489137_split_bil_user_friends_mapping');
+			gr.initialize();
+			gr.user.setDisplayValue(gs.getUser().getDisplayName());
+			gr.friend.setDisplayValue(friendName);
+			gr.balance=0;
+			gr.update('Adding New User if not exist');
+
+			data.friendName=friendName;
+			data.friendSysId=friendSysId;
+			data.friend=friendR;
+
+		}
 	}else{
 		var userGR=new GlideRecord('x_489137_split_bil_user_data');
 		userGR.addQuery('user', gs.getUser().getID());
@@ -97,8 +203,13 @@
 			data.name=gs.getUser().getDisplayName();
 			data.balance=userGR.getValue("balance");
 			console.log("User Data :"+userGR);
+			//console.log("data "+" "+userGR.getElement().getRefRecord().getDisplayValue());
 			console.log(userGR.getValue('sys_id'));
 		}
+		data.friend={
+			sys_id:'',
+			name:''
+		};
 	}
 
 })();]]></script>
@@ -107,25 +218,54 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2020-06-08 17:21:07</sys_created_on>
         <sys_id>01e4c6512fd510100056c886f699b60a</sys_id>
-        <sys_mod_count>97</sys_mod_count>
+        <sys_mod_count>223</sys_mod_count>
         <sys_name>SplitUser</sys_name>
         <sys_package display_value="Split Bills" source="x_489137_split_bil">9a7fb19d2f9510100056c886f699b625</sys_package>
         <sys_policy/>
         <sys_scope display_value="Split Bills">9a7fb19d2f9510100056c886f699b625</sys_scope>
         <sys_update_name>sp_widget_01e4c6512fd510100056c886f699b60a</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2020-06-12 08:00:49</sys_updated_on>
+        <sys_updated_on>2020-06-26 11:10:19</sys_updated_on>
         <template><![CDATA[<div>
-  <br/><br/><br/>
-  <div class="pull-left">
-    
-  <h2>
-  {{data.name}}<br/>
-  </h2>
-    <h3 ng-class='{green : data.balance>=0, red: data.balance<0}'>
-    Total Balance : {{data.balance}}
-  </h3> 
-  </div>
-</div>]]></template>
+
+  <table class="ttable">
+    <tr>
+      <td>
+
+        <h2>
+          {{data.name}}<br/>
+        </h2></td></tr>
+    <tr><td>
+      <h3 ng-class='{green : data.balance>=0, red: data.balance<0}'>
+        Total Balance : {{data.balance}}
+      </h3> 
+
+      </td></tr>
+    <tr>
+      <td>
+        <h4>
+          <i>
+            Add New Friend
+          </i>
+        </h4>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <sn-record-picker id="test" ng-change="c.changed()" field="friend" table="'sys_user'" display-field="'name'" value-field="'sys_id'" search-fields="'name'" page-size="100" ></sn-record-picker>
+      </td>
+      <td>
+        <button class="btn btn-default pull-right" ng-click="c.addNewFriend()">
+          <span class="glyphicon glyphicon-plus"></span> 
+        </button>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<button ng-click="c.tests()">
+  Test
+</button>
+]]></template>
     </sp_widget>
 </record_update>

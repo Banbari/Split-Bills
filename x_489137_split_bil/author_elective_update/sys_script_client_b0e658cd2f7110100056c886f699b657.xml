@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script_client">
+    <sys_script_client action="DELETE">
+        <active>true</active>
+        <applies_extended>false</applies_extended>
+        <condition/>
+        <description/>
+        <field>balance</field>
+        <global>true</global>
+        <isolate_script>true</isolate_script>
+        <messages/>
+        <name>Test Client Script</name>
+        <order/>
+        <script><![CDATA[function onChange(control, oldValue, newValue, isLoading, isTemplate) {
+   if (isLoading || newValue === '') {
+      return;
+   }
+	if(g_user.userID=='admin'){
+		g_form.setDisplay('sys_updated_by', false);
+	}
+
+   //Type appropriate comment here, and begin script below
+   
+}]]></script>
+        <sys_class_name>sys_script_client</sys_class_name>
+        <sys_created_by>deepa.shah</sys_created_by>
+        <sys_created_on>2020-07-02 11:17:36</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>b0e658cd2f7110100056c886f699b657</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>Test Client Script</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Split Bills" source="x_489137_split_bil">9a7fb19d2f9510100056c886f699b625</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Split Bills">9a7fb19d2f9510100056c886f699b625</sys_scope>
+        <sys_update_name>sys_script_client_b0e658cd2f7110100056c886f699b657</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-07-02 13:44:20</sys_updated_on>
+        <table>x_489137_split_bil_user_data</table>
+        <type>onChange</type>
+        <ui_type>10</ui_type>
+        <view/>
+    </sys_script_client>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Split Bills">9a7fb19d2f9510100056c886f699b625</application>
+        <file_path/>
+        <instance_id>ab4e3820dbf09cd89a4dcac5059619ee</instance_id>
+        <instance_name>dev103178</instance_name>
+        <name>sys_script_client_b0e658cd2f7110100056c886f699b657</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update sys_domain="global" table="sys_script_client"&gt;&lt;sys_script_client action="INSERT_OR_UPDATE"&gt;&lt;active&gt;true&lt;/active&gt;&lt;applies_extended&gt;false&lt;/applies_extended&gt;&lt;condition/&gt;&lt;description/&gt;&lt;field&gt;balance&lt;/field&gt;&lt;global&gt;true&lt;/global&gt;&lt;isolate_script&gt;true&lt;/isolate_script&gt;&lt;messages/&gt;&lt;name&gt;Test Client Script&lt;/name&gt;&lt;order/&gt;&lt;script&gt;&lt;![CDATA[function onChange(control, oldValue, newValue, isLoading, isTemplate) {
+   if (isLoading || newValue === '') {
+      return;
+   }
+	if(g_user.userID=='admin'){
+		g_form.setDisplay('sys_updated_by', false);
+	}
+
+   //Type appropriate comment here, and begin script below
+   
+}]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_client&lt;/sys_class_name&gt;&lt;sys_created_by&gt;deepa.shah&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2020-07-02 11:17:36&lt;/sys_created_on&gt;&lt;sys_domain&gt;global&lt;/sys_domain&gt;&lt;sys_domain_path&gt;/&lt;/sys_domain_path&gt;&lt;sys_id&gt;b0e658cd2f7110100056c886f699b657&lt;/sys_id&gt;&lt;sys_mod_count&gt;4&lt;/sys_mod_count&gt;&lt;sys_name&gt;Test Client Script&lt;/sys_name&gt;&lt;sys_overrides/&gt;&lt;sys_package display_value="Split Bills" source="x_489137_split_bil"&gt;9a7fb19d2f9510100056c886f699b625&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Split Bills"&gt;9a7fb19d2f9510100056c886f699b625&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_client_b0e658cd2f7110100056c886f699b657&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2020-07-02 13:44:20&lt;/sys_updated_on&gt;&lt;table&gt;x_489137_split_bil_user_data&lt;/table&gt;&lt;type&gt;onChange&lt;/type&gt;&lt;ui_type&gt;10&lt;/ui_type&gt;&lt;view/&gt;&lt;/sys_script_client&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>-1868036131</payload_hash>
+        <record_name>Test Client Script</record_name>
+        <reverted_from/>
+        <source>7615f2182f2110100056c886f699b60e</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-07-02 13:44:20</sys_created_on>
+        <sys_id>eb69f4452ff110100056c886f699b6b2</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1730fc561b20000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-07-02 13:44:20</sys_updated_on>
+        <type>Client Script</type>
+        <update_guid>2769f4452df1101032145eddfbbc02b2</update_guid>
+        <update_guid_history>2769f4452df1101032145eddfbbc02b2:-1868036131,0c89544171b110108054270c91f2c1ce:149866244,74e85041b7b11010796c6120ed44409f:1632629400,5f58d8014db11010bccb76e16fa89e8b:2050403534,06d7140121b110100afc5a5c88bdfd20:-950681760</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-07-02 13:45:47</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_client">sys_script_client</sys_db_object>
+        <sys_id>0947976042ae49da8af93cb629f9bec1</sys_id>
+        <sys_metadata>b0e658cd2f7110100056c886f699b657</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Test Client Script</sys_name>
+        <sys_package display_value="Split Bills" source="x_489137_split_bil">9a7fb19d2f9510100056c886f699b625</sys_package>
+        <sys_parent display_value="User Data">cca0ce9d2f9510100056c886f699b622</sys_parent>
+        <sys_policy/>
+        <sys_scope display_value="Split Bills">9a7fb19d2f9510100056c886f699b625</sys_scope>
+        <sys_scope_delete display_value="">2a3dc67cdf104d5a8865d88a74da40c1</sys_scope_delete>
+        <sys_update_name>sys_script_client_b0e658cd2f7110100056c886f699b657</sys_update_name>
+        <sys_update_version display_value="sys_script_client_b0e658cd2f7110100056c886f699b657">eb69f4452ff110100056c886f699b6b2</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-07-02 13:45:47</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>
